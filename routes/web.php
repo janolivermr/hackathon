@@ -20,3 +20,4 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('/talks', 'TalkController')->only(['index']);
 Route::resource('/meetups', 'MeetupController')->only(['store']);
+Route::resource('/verify', 'VerificationController')->only(['index', 'store']);

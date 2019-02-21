@@ -35,7 +35,20 @@ class MeetupController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $talkSlug = $request->input('talkSlug');
+        $meetups = Meetup::whereNull('user_two_id')->where('talk_slug', $talkSlug)->get();
+        if ($meetups->count() > 0) {
+            $meetup = $meetups->first();
+            $meetup->user_two_id = auth()->user()->id;
+            $meetup->save();
+            // TODO: Send Nexmo
+        } else {
+            $meetup = new Meetup();
+            $meetup->user_one_id = auth()->user()->id;
+            $meetup->talk_slug = $talkSlug;
+            $meetup->save();
+            // TODO: Notify Waiting
+        }
     }
 
     /**

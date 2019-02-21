@@ -18,7 +18,13 @@
                         <td> {{$talk->start_time->format('Y-m-d H:i')}} </td>
                         <td> {{$talk->talk_title}} </td>
                         <td> {{$talk->tracks[0]->track_name}} </td>
-                        <td> {{$talk->stub}} </td>
+                        <td>
+                            <form action="/meetups" method="POST">
+                                @csrf
+                                <input type="hidden" name="talkSlug" value="{{$talk->stub}}">
+                                <button type="submit" class="btn btn-sm btn-success">Match me!</button>
+                            </form>
+                        </td>
                     </tr>
                 @endforeach
                 </tbody>

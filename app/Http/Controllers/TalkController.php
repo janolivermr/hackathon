@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Meetup;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
@@ -31,6 +32,13 @@ class TalkController extends Controller
             return $talk;
         });
 //        dd($talks);
+        $meetups = Meetup::where('user_one_id', auth()->user()->id)->orWhere('user_two_id', auth()->user()->id)->get();
+        $meetupUris = $meetups->map(function ($meetup) {
+            return $meetup->talk_uri;
+        })->toArray();
+//        $talks = $talks->filter(function ($talk) use ($meetupUris) {
+//            return !in_array($talk->uri, $meetupUris);
+//        });
         return view('talks.index', compact('talks'));
     }
 

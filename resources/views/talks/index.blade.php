@@ -21,7 +21,7 @@
                         <td>
                             <form action="/meetups" method="POST">
                                 @csrf
-                                <input type="hidden" name="talkSlug" value="{{$talk->stub}}">
+                                <input type="hidden" name="talkUri" value="{{$talk->uri}}">
                                 <button type="submit" class="btn btn-sm btn-success">Match me!</button>
                             </form>
                         </td>

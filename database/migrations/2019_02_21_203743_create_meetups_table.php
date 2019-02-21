@@ -15,7 +15,7 @@ class CreateMeetupsTable extends Migration
     {
         Schema::create('meetups', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('talk_slug');
+            $table->string('talk_uri');
             $table->unsignedInteger('user_one_id');
             $table->unsignedInteger('user_two_id')->nullable();
             $table->timestamps();

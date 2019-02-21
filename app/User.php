@@ -27,4 +27,14 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function meetups()
+    {
+        return $this->hasMany(Meetup::class, 'user_one_id');
+    }
+
+    public function meetupsAsGuest()
+    {
+        return $this->hasMany(Meetup::class, 'user_two_id');
+    }
 }

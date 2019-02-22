@@ -46,6 +46,7 @@ class MeetupController extends Controller
             $meetup = $meetups->first();
             $meetup->user_two_id = auth()->user()->id;
             $meetup->save();
+            $request->session()->flash('alert-success', 'Meetup successfully scheduled!');
             // Notify new attendee
             Nexmo::message()->send([
                 'to' => auth()->user()->phone,
@@ -73,6 +74,7 @@ class MeetupController extends Controller
             $meetup->user_one_id = auth()->user()->id;
             $meetup->talk_uri = $talkUri;
             $meetup->save();
+            $request->session()->flash('alert-warning', 'Meetup currently pending. We will notify you when another user signs up.');
 //            Nexmo::message()->send([
 //                'to' => auth()->user()->phone,
 //                'from' => 'PHPUK',

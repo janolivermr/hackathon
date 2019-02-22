@@ -25,20 +25,18 @@ class TalkController extends Controller
                 'Social',
             ]);
         });
-        $talks->map(function ($talk) {
-            $talk->start_time = new Carbon($talk->start_date);
-            $talk->end_time = $talk->start_time->copy();
-            $talk->end_time->addMinutes($talk->duration);
-            return $talk;
-        });
-//        dd($talks);
         $meetups = Meetup::where('user_one_id', auth()->user()->id)->orWhere('user_two_id', auth()->user()->id)->get();
         $meetupUris = $meetups->map(function ($meetup) {
             return $meetup->talk_uri;
         })->toArray();
-//        $talks = $talks->filter(function ($talk) use ($meetupUris) {
-//            return !in_array($talk->uri, $meetupUris);
-//        });
+        $talks->map(function ($talk) use ($meetupUris){
+            $talk->start_time = new Carbon($talk->start_date);
+            $talk->end_time = $talk->start_time->copy();
+            $talk->end_time->addMinutes($talk->duration);
+            $talk->registered = in_array($talk->uri, $meetupUris);
+            return $talk;
+        });
+//        dd($talks);
         return view('talks.index', compact('talks'));
     }
 

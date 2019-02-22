@@ -15,6 +15,8 @@
                     @endif
 
                     You are logged in!
+                        <br><br>
+                        <a href="/talks" class="btn btn-primary">See all Talks</a>
                 </div>
             </div>
         </div>

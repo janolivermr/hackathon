@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Nexmo;
 
 class RegisterController extends Controller
 {
@@ -70,5 +73,17 @@ class RegisterController extends Controller
             'phone' => $data['phone'],
             'password' => Hash::make($data['password']),
         ]);
+    }
+
+    protected function registered(Request $request, Authenticatable $user)
+    {
+        auth()->logout();
+        $request->session()->put('verify:user:id', $user->id);
+        $verification = Nexmo::verify()->start([
+            'number' => $user->phone,
+            'brand'  => 'PHP UK'
+        ]);
+        $request->session()->put('verify:request_id', $verification->getRequestId());
+        return redirect('/verify');
     }
 }

@@ -22,7 +22,7 @@
                             <form action="/meetups" method="POST">
                                 @csrf
                                 <input type="hidden" name="talkUri" value="{{$talk->uri}}">
-                                <button type="submit" class="btn btn-sm btn-success">Match me!</button>
+                                <button type="submit" class="btn btn-sm btn-{{$talk->registered ? 'warning' : 'success'}}">Match me!</button>
                             </form>
                         </td>
                     </tr>

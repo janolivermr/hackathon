@@ -12,12 +12,17 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    if (auth()->guest()) {
+        return view('welcome');
+    }
+    return redirect('/home');
 });
 
 Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-Route::resource('/talks', 'TalkController')->only(['index']);
-Route::resource('/meetups', 'MeetupController')->only(['store']);
 Route::resource('/verify', 'VerificationController')->only(['index', 'store']);
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/home', 'HomeController@index')->name('home');
+    Route::resource('/talks', 'TalkController')->only(['index']);
+    Route::resource('/meetups', 'MeetupController')->only(['store']);
+});
